@@ -68,9 +68,10 @@ class Smser(object):
 
 
 class Notifier(object):
-    def __init__(self, mailer, smser):
+    def __init__(self, mailer, smser, duration):
         self.mailer = mailer
         self.smser = smser
+        self.duration = duration
 
     def send_sms(self, message):
         if self.smser is not None:
@@ -82,12 +83,10 @@ class Notifier(object):
 
     def sound_alert(self):
         i = 0
-        while True:
+        while i < self.duration:
             i += 1
             sys.stdout.write('\a')
             sys.stdout.flush()
-            if i == 10000000:
-                break
 
 
 class SiteChangeHandler(object):

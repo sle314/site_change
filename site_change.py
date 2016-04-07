@@ -21,7 +21,7 @@ class ArgParser(object):
 class SiteChange(object):
     @staticmethod
     def listen(url, username, server, mail_to, mail_from, send_mail, send_sms, sound_alert,
-                    sms_api, numbers, delay):
+                    sms_api, numbers, delay, duration):
         if not (sound_alert or send_mail or send_sms):
             send_mail = True
 
@@ -51,7 +51,7 @@ class SiteChange(object):
                 'NUMBERS': numbers
             })
 
-        notifier = Notifier(mailer, smser)
+        notifier = Notifier(mailer, smser, duration)
 
         sc = SiteChangeHandler(
             url,
@@ -134,6 +134,12 @@ if __name__ == "__main__":
                 'dest': 'delay',
                 'type': int,
                 'help': 'delay between change checks'
+            },
+            ('-sd', '--sound_duration'): {
+                'default': DEFAULT_SOUND_DURATION,
+                'dest': 'duration',
+                'type': int,
+                'help': 'alert sound duration'
             }
         }
 
@@ -142,4 +148,5 @@ if __name__ == "__main__":
 
     args = get_args()
     SiteChange.listen(args.url, args.username, args.server, args.mail_to, args.mail_from,
-        args.send_mail, args.send_sms, args.sound_alert, args.sms_api, args.numbers, args.delay)
+        args.send_mail, args.send_sms, args.sound_alert, args.sms_api, args.numbers, args.delay,
+        args.duration)
