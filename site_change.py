@@ -141,6 +141,5 @@ if __name__ == "__main__":
         return parser.parse_args()
 
     args = get_args()
-    print args
     SiteChange.listen(args.url, args.username, args.server, args.mail_to, args.mail_from,
         args.send_mail, args.send_sms, args.sound_alert, args.sms_api, args.numbers, args.delay)
