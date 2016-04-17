@@ -4,7 +4,7 @@ import argparse
 import getpass
 
 from models import Mailer, Smser, Notifier, SiteChangeHandler
-from config import *
+import local as config
 
 
 class ArgParser(object):
@@ -71,13 +71,13 @@ if __name__ == "__main__":
     def get_args():
         args = {
             ('-u', '--username'): {
-                'default': DEFAULT_USERNAME,
+                'default': config.DEFAULT_USERNAME,
                 'dest': 'username',
                 'type': str,
                 'help': 'account for the smtp server from which the email will be sent'
             },
             ('-url', '--url'): {
-                'default': DEFAULT_URL,
+                'default': config.DEFAULT_URL,
                 'dest': 'url',
                 'type': str,
                 'help': 'url to listen to'
@@ -101,42 +101,42 @@ if __name__ == "__main__":
                 'help': 'turn on sound notification on change'
             },
             ('-n', '--numbers'): {
-                'default': DEFAULT_NUMBERS,
+                'default': config.DEFAULT_NUMBERS,
                 'dest': 'numbers',
                 'nargs': '*',
                 'help': 'numbers to receive sms notification'
             },
             ('-s', '--server'): {
-                'default': DEFAULT_SERVER,
+                'default': config.DEFAULT_SERVER,
                 'dest': 'server',
                 'type': str,
                 'help': 'smtp server'
             },
             ('-sms_api', '--sms_api'): {
-                'default': DEFAULT_SMS_API,
+                'default': config.DEFAULT_SMS_API,
                 'dest': 'sms_api',
                 'type': str,
                 'help': 'sms api address'
             },
             ('-mt', '--mail_to'): {
-                'default': DEFAULT_MAIL_TO,
+                'default': config.DEFAULT_MAIL_TO,
                 'dest': 'mail_to',
                 'nargs': '*',
                 'help': 'recipients of email notification'
             },
             ('-mf', '--mail_from'): {
-                'default': DEFAULT_MAIL_FROM,
+                'default': config.DEFAULT_MAIL_FROM,
                 'dest': 'mail_from',
                 'help': 'email address from which the email will be sent'
             },
             ('-d', '--delay'): {
-                'default': DEFAULT_DELAY,
+                'default': config.DEFAULT_DELAY,
                 'dest': 'delay',
                 'type': int,
                 'help': 'delay between change checks'
             },
             ('-sd', '--sound_duration'): {
-                'default': DEFAULT_SOUND_DURATION,
+                'default': config.DEFAULT_SOUND_DURATION,
                 'dest': 'duration',
                 'type': int,
                 'help': 'alert sound duration'
