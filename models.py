@@ -131,7 +131,7 @@ class SiteChangeHandler(object):
                 self.notifier.sound_alert()
         print "Change handled!"
 
-    def start_listening(self):
+    def start_listening(self, stop_on_change=True):
         "Listening for changes!"
         while True:
             html = self.fetch_data()
@@ -139,6 +139,7 @@ class SiteChangeHandler(object):
                 self.html = html
                 print "Change occured!"
                 self.handle_change()
-                break
+                if stop_on_change:
+                    break
 
             time.sleep(self.delay)

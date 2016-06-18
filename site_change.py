@@ -21,7 +21,7 @@ class ArgParser(object):
 class SiteChange(object):
     @staticmethod
     def listen(url, username, server, mail_to, mail_from, send_mail, send_sms, sound_alert,
-                    sms_api, numbers, delay, duration):
+                    sms_api, numbers, delay, duration, stop_on_change):
         if not (sound_alert or send_mail or send_sms):
             send_mail = True
 
@@ -62,7 +62,7 @@ class SiteChange(object):
             sound_alert=sound_alert
         )
         try:
-            sc.start_listening()
+            sc.start_listening(stop_on_change)
         except KeyboardInterrupt as e:
             print "Stopped!"
 
@@ -83,22 +83,28 @@ if __name__ == "__main__":
                 'help': 'url to listen to'
             },
             ('-mail', '--mail'): {
-                'default': False,
+                'default': config.DEFAULT_SEND_MAIL,
                 'action': 'store_true',
                 'dest': 'send_mail',
                 'help': 'turn on email notification on change (turned on if sms and sound aren\'t)'
             },
             ('-sms', '--sms'): {
-                'default': False,
+                'default': config.DEFAULT_SEND_SMS,
                 'action': 'store_true',
                 'dest': 'send_sms',
                 'help': 'turn on sms notification on change'
             },
             ('-sound', '--sound'): {
-                'default': False,
+                'default': config.DEFAULT_SOUND,
                 'action': 'store_true',
                 'dest': 'sound_alert',
                 'help': 'turn on sound notification on change'
+            },
+            ('-no_stop', '--no_stop'): {
+                'default': config.DEFAULT_NO_STOP,
+                'action': 'store_true',
+                'dest': 'stop_on_change',
+                'help': 'stop listening if a change is detected'
             },
             ('-n', '--numbers'): {
                 'default': config.DEFAULT_NUMBERS,
@@ -147,6 +153,7 @@ if __name__ == "__main__":
         return parser.parse_args()
 
     args = get_args()
-    SiteChange.listen(args.url, args.username, args.server, args.mail_to, args.mail_from,
+    args.stop_on_change = not args.stop_on_change
+    pSiteChange.listen(args.url, args.username, args.server, args.mail_to, args.mail_from,
         args.send_mail, args.send_sms, args.sound_alert, args.sms_api, args.numbers, args.delay,
-        args.duration)
+        args.duration, args.stop_on_change)
